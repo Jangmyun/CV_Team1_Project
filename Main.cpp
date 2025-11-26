@@ -37,6 +37,43 @@ int main(int argc, char** argv) {
     stabilizer->setRadius(15);
     stabilizer->setTrimRatio(0.1);  // 경계 trim 10%
     stabilizer->setBorderMode(BORDER_REPLICATE);
+
+    // 설정이 끝났으므로 Frame Source 용도로만 사용하기 위한 type casting
+    Ptr<IFrameSource> stabilizedFrames(dynamic_cast<IFrameSource*>(stabilizer));
+
+    VideoWriter videoWriter;
+    Mat frame;
+    int frameCount = 0;
+
+    while (!(frame = stabilizedFrames->nextFrame()).empty()) {
+      frameCount++;
+      cout << frameCount << '\n';
+
+      if (!videoWriter.isOpened()) {
+        videoWriter.open(outputPath, VideoWriter::fourcc('X', 'V', 'I', 'D'),
+                         src->fps(), frame.size());
+
+        if (!videoWriter.isOpened()) {  // VideoWriter open 실패
+          cerr << "Video writer open failed" << endl;
+          return 1;
+        }
+      }
+
+      videoWriter << frame;
+
+      imshow("Output", frame);
+      if (waitKey(33) == 27) break;
+    }
+
+    cout << "Total frames: " << frameCount << endl;
+    cout << "Saved " << outputPath << endl;
+
+    videoWriter.release();
+    stabilizedFrames.release();
+    destroyAllWindows();
+  } catch (const exception e) {
+    cerr << "Error: " << e.what() << endl;
+    return 1;
   }
 
   return 0;
