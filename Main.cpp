@@ -29,6 +29,14 @@ int main(int argc, char** argv) {
     kBasedEst->setDetector(GFTTDetector::create(1000));
 
     stabilizer->setMotionEstimator(kBasedEst);
+
+    stabilizer->setMotionFilter(makePtr<GaussianMotionFilter>(15));
+
+    stabilizer->setFrameSource(src);
+    // sliding window: window를 이동시키며 window 내에서 obj detection
+    stabilizer->setRadius(15);
+    stabilizer->setTrimRatio(0.1);  // 경계 trim 10%
+    stabilizer->setBorderMode(BORDER_REPLICATE);
   }
 
   return 0;
