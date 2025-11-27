@@ -101,7 +101,7 @@ void fixBorder(Mat &frame_stabilized) {
 }
 
 int main(int argc, char** argv) {
-    string inputPath = "sampleVideo1.mp4";
+    string inputPath = "sampleVideo2.mp4";
     if (argc > 1) {
         inputPath = argv[1];
     }
@@ -247,11 +247,6 @@ int main(int argc, char** argv) {
         fixBorder(frame_stabilized);
 
         hconcat(frame, frame_stabilized, frame_out);
-
-        if (frame_out.cols > 1920) {
-            resize(frame_out, frame_out,
-                   Size(frame_out.cols / 2, frame_out.rows / 2));
-        }
 
         imshow("Before and After", frame_out);
         out.write(frame_out);
