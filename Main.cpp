@@ -145,13 +145,12 @@ int main(int argc, char **argv)
         curr_gray.copyTo(prev_gray);
 
         // 결과 비교 화면 생성
-        Mat comparison;
-        hconcat(frame, stabilized_frame, comparison);
-        
-        putText(comparison, "Original", Point(10, 30), FONT_HERSHEY_SIMPLEX, 1, Scalar(0, 0, 255), 2);
-        putText(comparison, "Stabilized", Point(frame.cols + 10, 30), FONT_HERSHEY_SIMPLEX, 1, Scalar(0, 255, 0), 2);
-
-        imshow("Video Stabilization Project", comparison);
+        namedWindow("Original Video");
+        namedWindow("Video Stabilization Project");
+        moveWindow("Original Video", 0, 0);
+        moveWindow("Video Stabilization Project", 600, 0);
+        imshow("Original Video", frame);
+        imshow("Video Stabilization Project", stabilized_frame);
 
         if (waitKey(delay) == 27) break;
     }
