@@ -101,7 +101,7 @@ void fixBorder(Mat &frame_stabilized) {
 }
 
 int main(int argc, char** argv) {
-    string inputPath = "sampleVideo2.mp4";
+    string inputPath = "sampleVideo3.mp4";
     if (argc > 1) {
         inputPath = argv[1];
     }
@@ -251,7 +251,7 @@ int main(int argc, char** argv) {
         imshow("Before and After", frame_out);
         out.write(frame_out);
 
-        char key = static_cast<char>(waitKey(10));
+        char key = static_cast<char>(waitKey(1000/fps));
         if (key == 27) {
             break;
         }
