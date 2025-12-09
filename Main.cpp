@@ -242,10 +242,49 @@ int main(int argc, char** argv) {
 
         transforms_smooth[i].getTransform(T);
 
+        /*
+        void cv::warpAffine(
+            cv::InputArray src,
+            cv::OutputArray dst,
+            cv::InputArray M,
+            cv::Size dsize,
+            int flags = cv::INTER_LINEAR,
+            int borderMode = cv::BORDER_CONSTANT,
+            const cv::Scalar& borderValue = cv::Scalar()
+        );
+        */
+        /*
+        This function applies an Affine Transformation—including translation, rotation, 
+        and scaling—to the input image using a $2 \times 3$ transformation matrix, 
+        generating a warped output image.
+        */
         warpAffine(frame, frame_stabilized, T, frame.size());
 
+        /*
+        void cv::fixBorder(
+            cv::InputOutputArray dst,
+            int borderType
+        );
+        */
+       /*
+       It is used to correct artifacts that may occur around the image borders 
+       when using the warpAffine or warpPerspective functions. 
+       Specifically, it compensates for unwanted effects (e.g., errors in edge pixel values) 
+       that arise when the borders are not correctly handled after an image transformation.
+       */
         fixBorder(frame_stabilized);
 
+        /*
+        void cv::hconcat(
+            const cv::Mat* src,
+            size_t nsrc,
+            cv::OutputArray dst
+        );
+        */
+       /*
+       The function is used to combine several input images horizontally to create a single larger image. 
+       It performs the operation of stitching the images side-by-side along the same row.
+       */
         hconcat(frame, frame_stabilized, frame_out);
 
         imshow("Before and After", frame_out);
